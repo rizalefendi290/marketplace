@@ -1,6 +1,5 @@
 <?php
-session_start();
-require '../../config/database.php'; // koneksi database
+require __DIR__ . '/../../config/database.php'; // koneksi database
 
 // Pastikan hanya admin toko yang bisa akses
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin_toko') {
@@ -23,6 +22,7 @@ $toko_id = $toko['id'];
 
 // Proses tambah produk
 $success_message = '';
+$error_message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_barang = $_POST['nama_barang'];
     $deskripsi = $_POST['deskripsi'];
@@ -32,24 +32,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Upload gambar
     $gambar = null;
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
-        $uploadDir = __DIR__ . '/uploads/';
+        $uploadDir = __DIR__ . '/../../uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
         $filename = time() . '-' . basename($_FILES['gambar']['name']);
         $targetFile = $uploadDir . $filename;
 
-        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
+        // Validasi ekstensi file gambar
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowed_ext)) {
+            $error_message = "Format gambar tidak didukung. Hanya jpg, jpeg, png, gif, webp.";
+        } elseif (move_uploaded_file($_FILES['gambar']['tmp_name'], $targetFile)) {
             $gambar = $filename;
         } else {
             $error_message = "Upload gambar gagal.";
         }
     }
 
-    $stmt = $pdo->prepare("INSERT INTO barang (toko_id, nama_barang, deskripsi, harga, stok, gambar) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$toko_id, $nama_barang, $deskripsi, $harga, $stok, $gambar]);
-
-    $success_message = "Produk berhasil ditambahkan.";
+    if (!$error_message) {
+        $stmt = $pdo->prepare("INSERT INTO barang (toko_id, nama_barang, deskripsi, harga, stok, gambar) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$toko_id, $nama_barang, $deskripsi, $harga, $stok, $gambar]);
+        $success_message = "Produk berhasil ditambahkan.";
+    }
 }
 
 // Ambil produk toko
@@ -68,7 +74,7 @@ $produk = $stmt->fetchAll();
 </head>
 
 <body class="bg-gray-100 text-gray-800 p-6">
-    <?php include __DIR__ . '/components/header.php'; ?>
+    <?php include __DIR__ . '../components/header.php'; ?>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14 bg-white">
             <div class="">
@@ -78,6 +84,11 @@ $produk = $stmt->fetchAll();
                 <?php if ($success_message): ?>
                     <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded">
                         <?= $success_message ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($error_message): ?>
+                    <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded">
+                        <?= $error_message ?>
                     </div>
                 <?php endif; ?>
 
@@ -113,9 +124,9 @@ $produk = $stmt->fetchAll();
                         </div>
                     </form>
                 </div>
+                <!-- Daftar produk bisa ditampilkan di sini -->
             </div>
         </div>
     </div>
 </body>
-
 </html>

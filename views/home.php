@@ -47,6 +47,25 @@ $barangUnggulan = $stmt->fetchAll();
       <h2 class="text-3xl font-bold text-green-400 mb-10 text-center tracking-wide">Barang Unggulan</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         <?php foreach ($barangUnggulan as $barang): ?>
+          <?php
+          // Ambil rata-rata rating dan jumlah ulasan produk
+          $stmtUlasan = $pdo->prepare("SELECT AVG(rating) as rata2, COUNT(*) as total FROM ulasan WHERE barang_id = ?");
+          $stmtUlasan->execute([$barang['id']]);
+          $ulasan = $stmtUlasan->fetch();
+          $rata2 = $ulasan['rata2'] ? round($ulasan['rata2'], 1) : '-';
+          $total_ulasan = $ulasan['total'];
+
+          // Ambil jumlah terjual (asumsi tabel transaksi_detail dan status transaksi 'selesai')
+          $stmtTerjual = $pdo->prepare("
+            SELECT SUM(td.jumlah) as terjual
+            FROM transaksi_detail td
+            JOIN transaksi t ON td.transaksi_id = t.id
+            WHERE td.barang_id = ? AND t.status = 'selesai'
+        ");
+          $stmtTerjual->execute([$barang['id']]);
+          $terjual = $stmtTerjual->fetchColumn();
+          if (!$terjual) $terjual = 0;
+          ?>
           <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-green-800 group relative overflow-hidden">
             <!-- Ribbon -->
             <div class="absolute left-0 top-0 bg-gradient-to-r from-green-500 to-blue-500 text-white text-xs px-3 py-1 rounded-br-2xl font-bold shadow group-hover:scale-105 transition">Unggulan</div>
@@ -58,6 +77,16 @@ $barangUnggulan = $stmt->fetchAll();
                 <h5 class="mb-2 text-lg font-bold tracking-tight text-white hover:text-green-400 transition"><?= htmlspecialchars($barang['nama_barang']) ?></h5>
               </a>
               <p class="mb-1 text-sm text-gray-400">Toko: <span class="font-semibold text-green-400"><?= htmlspecialchars($barang['nama_toko']) ?></span></p>
+              <div class="flex items-center gap-3 mb-1">
+                <span class="text-yellow-400 flex items-center">
+                  <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.175 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" />
+                  </svg>
+                  <?= $rata2 ?>
+                </span>
+                <span class="text-gray-400 text-xs">(<?= $total_ulasan ?> ulasan)</span>
+                <span class="text-blue-400 text-xs ml-auto"><?= $terjual ?> terjual</span>
+              </div>
               <p class="mb-3 font-semibold text-green-400 text-xl">Rp<?= number_format($barang['harga'], 0, ',', '.') ?></p>
             </div>
             <a href="index.php?page=detail-barang&id=<?= $barang['id'] ?>" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-blue-500 rounded-lg shadow hover:from-green-600 hover:to-blue-600 focus:ring-4 focus:outline-none focus:ring-green-200 transition">
@@ -74,13 +103,56 @@ $barangUnggulan = $stmt->fetchAll();
       </div>
     </div>
 
+    <?php if (isset($_GET['q']) && trim($_GET['q']) !== ''): ?>
+      <h2 class="text-xl font-bold mb-4">Hasil Pencarian: "<?= htmlspecialchars($_GET['q']) ?>"</h2>
+      <h3 class="text-lg font-semibold mt-6 mb-2">Produk</h3>
+      <?php if ($produk_list): ?>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <?php foreach ($produk_list as $produk): ?>
+            <a href="/marketplace/index.php?page=detail-barang&id=<?= $produk['id'] ?>" class="block border rounded-lg p-3 bg-white hover:shadow-lg transition">
+              <?php if (!empty($produk['gambar']) && file_exists(__DIR__ . '/../../uploads/' . $produk['gambar'])): ?>
+                <img src="/marketplace/uploads/<?= htmlspecialchars($produk['gambar']) ?>" class="w-full h-32 object-cover rounded mb-2" alt="<?= htmlspecialchars($produk['nama_barang']) ?>">
+              <?php else: ?>
+                <div class="w-full h-32 flex items-center justify-center bg-gray-200 text-gray-400 rounded mb-2">Tidak Ada Gambar</div>
+              <?php endif; ?>
+              <div class="font-semibold text-gray-800 truncate"><?= htmlspecialchars($produk['nama_barang']) ?></div>
+              <div class="text-green-600 font-bold mt-1">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></div>
+              <div class="text-xs text-gray-500 mt-1">Toko: <?= htmlspecialchars($produk['nama_toko']) ?></div>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <div class="text-gray-400 py-8">Tidak ada produk ditemukan.</div>
+      <?php endif; ?>
+
+      <h3 class="text-lg font-semibold mt-8 mb-2">Toko</h3>
+      <?php if ($toko_list): ?>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <?php foreach ($toko_list as $toko): ?>
+            <a href="/marketplace/index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-3 bg-white hover:shadow-lg transition text-center">
+              <?php if (!empty($toko['logo']) && file_exists(__DIR__ . '/../../uploads/' . $toko['logo'])): ?>
+                <img src="/marketplace/uploads/<?= htmlspecialchars($toko['logo']) ?>" class="w-16 h-16 object-cover rounded-full mx-auto mb-2" alt="<?= htmlspecialchars($toko['nama_toko']) ?>">
+              <?php else: ?>
+                <div class="w-16 h-16 flex items-center justify-center bg-gray-200 text-gray-400 rounded-full mx-auto mb-2">No Logo</div>
+              <?php endif; ?>
+              <div class="font-semibold text-gray-800"><?= htmlspecialchars($toko['nama_toko']) ?></div>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <div class="text-gray-400 py-8">Tidak ada toko ditemukan.</div>
+      <?php endif; ?>
+    <?php endif; ?>
+
     <!-- CTA Section -->
     <div class="max-w-5xl mx-auto mt-20 mb-10 px-4">
       <div class="bg-gray-900 from-green-400 to-blue-500 rounded-2xl shadow-lg p-10 flex flex-col md:flex-row items-center justify-between gap-8">
         <div>
           <h3 class="text-2xl font-bold text-white mb-2">Gabung Menjadi Penjual!</h3>
           <p class="text-white mb-4">Punya produk lokal? Daftarkan tokomu dan mulai jualan di Marketplace Desa sekarang juga.</p>
-          <a href="index.php?page=register" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">Daftar Sekarang</a>
+          <a href="https://wa.me/62895347042844?text=Halo%20admin,%20saya%20ingin%20mendaftar%20sebagai%20penjual%20di%20Marketplace%20Desa." target="_blank" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">
+            Daftar Sekarang
+          </a>
         </div>
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Gabung Penjual" class="w-32 h-32 md:w-40 md:h-40 drop-shadow-xl">
       </div>

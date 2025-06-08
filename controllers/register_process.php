@@ -6,7 +6,7 @@ $username = $_POST['username'];
 $email = $_POST['email'];
 $nomor_hp = $_POST['nomor_hp'];
 $password = $_POST['password'];
-$role = 'customer'; // Default role
+$role = $_POST['role'];
 
 // Cek username sudah ada
 $cek = $pdo->prepare("SELECT id FROM users WHERE username = ?");

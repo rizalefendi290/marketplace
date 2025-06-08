@@ -198,6 +198,9 @@ $transaksi = $stmt->fetchAll();
                 <div class="bg-white shadow-xl rounded-xl p-6 mb-8">
                     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
                         <h2 class="text-xl font-semibold text-green-700 mb-2 md:mb-0">Produk Anda (<?= $jumlah_produk ?> Produk)</h2>
+                        <a href="/marketplace/index.php?page=tambah-produk" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition mb-2 md:mb-0">
+                            + Tambah Produk
+                        </a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
@@ -234,7 +237,7 @@ $transaksi = $stmt->fetchAll();
                     </div>
                     <!-- Tombol lihat semua produk -->
                     <div class="mt-4 flex justify-start">
-                        <a href="/marketplace/index.php?page=admin-produk" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
+                        <a href="/marketplace/index.php?page=semua-produk" class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
                             Lihat Semua Produk
                         </a>
                     </div>

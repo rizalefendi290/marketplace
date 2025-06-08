@@ -6,25 +6,36 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin_toko') {
     exit;
 }
 
+// Ambil id toko milik admin ini
+$stmt = $pdo->prepare("SELECT id FROM toko WHERE admin_id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$toko = $stmt->fetch();
+if (!$toko) {
+    echo "Toko tidak ditemukan.";
+    exit;
+}
+$toko_id = $toko['id'];
+
 // PAGINATION SETUP
 $perPage = 5;
 $page = isset($_GET['page_num']) && is_numeric($_GET['page_num']) ? (int)$_GET['page_num'] : 1;
 $start = ($page - 1) * $perPage;
 
-// Hitung total data
+// Hitung total data transaksi untuk toko ini
 $countQuery = "
     SELECT COUNT(*) as total
     FROM transaksi t
     JOIN users u ON t.user_id = u.id
     JOIN transaksi_detail td ON t.id = td.transaksi_id
     JOIN barang b ON td.barang_id = b.id
+    WHERE b.toko_id = ?
 ";
 $stmt = $pdo->prepare($countQuery);
-$stmt->execute();
+$stmt->execute([$toko_id]);
 $totalData = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $totalPages = ceil($totalData / $perPage);
 
-// Ambil data transaksi dengan LIMIT dan OFFSET
+// Ambil data transaksi dengan LIMIT dan OFFSET untuk toko ini
 $query = "
     SELECT 
         t.id,
@@ -38,11 +49,12 @@ $query = "
     JOIN users u ON t.user_id = u.id
     JOIN transaksi_detail td ON t.id = td.transaksi_id
     JOIN barang b ON td.barang_id = b.id
+    WHERE b.toko_id = ?
     ORDER BY t.tanggal_transaksi DESC
     LIMIT $perPage OFFSET $start
 ";
 $stmt = $pdo->prepare($query);
-$stmt->execute();
+$stmt->execute([$toko_id]);
 $transaksi = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Hitung total keseluruhan halaman ini
@@ -58,7 +70,7 @@ $totalSeluruh = array_sum(array_column($transaksi, 'total'));
 </head>
 <body class="bg-gray-100 font-sans">
 
-<?php include __DIR__ . '/components/header.php'; ?>
+    <?php include __DIR__ . '/components/header.php'; ?>
 
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14 bg-white">

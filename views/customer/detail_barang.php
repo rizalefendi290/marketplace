@@ -9,15 +9,13 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-
-
 // Ambil detail produk dan nama toko
 $stmt = $pdo->prepare("
     SELECT 
         barang.*,
         toko.nama_toko,
         toko.id as toko_id,
-        toko.logo as logo_toko,
+        toko.logo as logo,
         toko.created_at as toko_created
     FROM barang
     JOIN toko ON barang.toko_id = toko.id
@@ -66,8 +64,8 @@ if (
     isset($_POST['tambah_keranjang'], $_POST['barang_id'], $_POST['jumlah'])
     && isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer'
 ) {
-    $barang_id = (int)$_POST['barang_id'];
-    $jumlah = (int)$_POST['jumlah'];
+    $barang_id = (int)$_POST['barang_id'][0];
+    $jumlah = (int)$_POST['jumlah'][0];
     $user_id = $_SESSION['user_id'];
 
     // Cek apakah barang sudah ada di keranjang
@@ -128,9 +126,10 @@ if (
                 </div>
                 <?php if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer'): ?>
                     <form action="" method="post" class="mt-4 flex flex-col gap-3">
-                        <input type="hidden" name="barang_id" value="<?= $produk['id'] ?>">
+                        <!-- Perbaikan: gunakan array agar checkout tidak error -->
+                        <input type="hidden" name="barang_id[]" value="<?= $produk['id'] ?>">
                         <label class="text-gray-200">Jumlah:
-                            <input type="number" name="jumlah" value="1" min="1" max="<?= $produk['stok'] ?>" class="ml-2 w-20 px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white">
+                            <input type="number" name="jumlah[]" value="1" min="1" max="<?= $produk['stok'] ?>" class="ml-2 w-20 px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white">
                         </label>
                         <div class="flex gap-2">
                             <button type="submit" name="tambah_keranjang" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg shadow transition">+ Keranjang</button>
@@ -150,8 +149,8 @@ if (
         <div class="bg-white p-6 shadow-md rounded-lg mt-10">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
-                    <?php if (!empty($produk['logo_toko']) && file_exists(__DIR__ . '/../../uploads/' . $produk['logo_toko'])): ?>
-                        <img src="/marketplace/uploads/<?= htmlspecialchars($produk['logo_toko']) ?>" alt="Logo Toko" class="w-12 h-12 rounded-full">
+                    <?php if (!empty($produk['logo']) && file_exists(__DIR__ . '/../../uploads/' . $produk['logo'])): ?>
+                        <img src="/marketplace/uploads/<?= htmlspecialchars($produk['logo']) ?>" alt="Logo Toko" class="w-12 h-12 rounded-full">
                     <?php else: ?>
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($produk['nama_toko']) ?>&background=10b981&color=fff&size=128" alt="Logo Toko" class="w-12 h-12 rounded-full">
                     <?php endif; ?>
@@ -162,7 +161,7 @@ if (
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">Chat Sekarang</a>
-                    <a href="#" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100">Kunjungi Toko</a>
+                    <a href="/marketplace/index.php?page=detail-toko&id=<?= $produk['toko_id'] ?>" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100">Kunjungi Toko</a>
                 </div>
             </div>
 
@@ -286,7 +285,6 @@ if (
                 </div>
             <?php endif; ?>
         </div>
-        <!-- ...existing code... -->
 
         <div class="mt-10 text-center">
             <a href="/marketplace/index.php?page=home" class="inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg text-lg transition">Kembali ke Beranda</a>
@@ -297,5 +295,4 @@ if (
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </footer>
 </body>
-
 </html>

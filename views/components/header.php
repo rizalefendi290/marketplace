@@ -2,6 +2,7 @@
 $nama_user = '';
 $foto_profil = '';
 $email_user = '';
+$role = '';
 if (isset($_SESSION['user_id'])) {
     $nama_user = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'User';
     $role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
@@ -19,7 +20,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Marketplace Desa</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
 </head>
 
@@ -31,8 +32,19 @@ if (isset($_SESSION['user_id'])) {
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Marketplace Desa</span>
             </a>
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
+                <form action="/marketplace/index.php" method="get" class="hidden md:block mr-4">
+                    <input type="hidden" name="page" value="home">
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Cari produk atau toko..."
+                        class="px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm w-64"
+                        value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                    <button type="submit" class="ml-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm">Cari</button>
+                </form>
                 <?php if (!isset($_SESSION['user_id'])): ?>
-                    <a href="/marketplace/index.php?page=login" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition">Login</a>
+                    <!-- Tombol Login dan Register (bukan modal, halaman terpisah) -->
+                    <a href="/marketplace/index.php?page=login" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition mr-2">Login</a>
                 <?php else: ?>
                     <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
@@ -60,6 +72,11 @@ if (isset($_SESSION['user_id'])) {
                                 ?>
                                 <a href="<?= $editProfileUrl ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit Profile</a>
                             </li>
+                            <?php if ($role === 'admin_toko'): ?>
+                                <li>
+                                    <a href="/marketplace/index.php?page=admin-dashboard" class="block px-4 py-2 text-sm text-blue-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-blue-400 dark:hover:text-white">Halaman Admin</a>
+                                </li>
+                            <?php endif; ?>
                             <li>
                                 <a href="/marketplace/index.php?page=keranjang-belanja" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keranjang Belanja</a>
                             </li>
@@ -75,7 +92,7 @@ if (isset($_SESSION['user_id'])) {
                 <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
                     </svg>
                 </button>
             </div>
@@ -100,6 +117,6 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </nav>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </html>
