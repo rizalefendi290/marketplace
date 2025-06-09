@@ -3,13 +3,18 @@ session_start();
 $page = $_GET['page'] ?? 'home'; // default ke halaman beranda (home)
 
 if ($page == 'register_admin_toko') {
-    include __DIR__ . '/views/admin/register_admin_toko.php';
-    exit;
+  include __DIR__ . '/views/admin/register_admin_toko.php';
+  exit;
 }
 // Hanya larang akses jika halaman bukan public dan user belum login
 $public_pages = [
-  'login', 'register', 'home', 'detail-barang', 'detail-toko',
-  'proses-login', 'proses-register', // jika ada proses login/register
+  'login',
+  'register',
+  'home',
+  'detail-barang',
+  'detail-toko',
+  'proses-login',
+  'proses-register', // jika ada proses login/register
   // tambahkan halaman public lain jika perlu
 ];
 
@@ -227,4 +232,24 @@ switch ($page) {
     }
     header("Location: /marketplace/index.php?page=detail-toko&id=" . ($_GET['id'] ?? ''));
     exit;
+
+  case 'semua-toko':
+    include 'views/semua_toko.php';
+    break;
+
+  case 'produk':
+    include 'views/semua_produk.php';
+    break;
+
+  case 'produk-toko':
+    include 'views/customer/produk_toko.php';
+    break;
+
+  case 'search':
+    include 'views/hasil_pencarian.php';
+    break;
+
+  case 'kategori':
+    include 'views/kategori.php';
+    break;
 }

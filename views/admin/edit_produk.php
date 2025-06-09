@@ -13,7 +13,10 @@ if (!$id) {
 }
 
 // Validasi produk milik admin
-$stmt = $pdo->prepare("SELECT b.* FROM barang b JOIN toko t ON b.toko_id = t.id WHERE b.id = ? AND t.admin_id = ?");
+$stmt = $pdo->prepare("SELECT b.*, k.nama_kategori FROM barang b 
+    JOIN toko t ON b.toko_id = t.id 
+    LEFT JOIN kategori k ON b.kategori_id = k.id
+    WHERE b.id = ? AND t.admin_id = ?");
 $stmt->execute([$id, $user_id]);
 $produk = $stmt->fetch();
 
@@ -27,6 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deskripsi = $_POST['deskripsi'];
     $harga = $_POST['harga'];
     $stok = $_POST['stok'];
+    $kategori_nama = trim($_POST['kategori_nama']);
+
+    // Cek kategori, buat baru jika belum ada
+    $kategori_id = null;
+    if ($kategori_nama !== '') {
+        $stmt = $pdo->prepare("SELECT id FROM kategori WHERE LOWER(nama_kategori) = LOWER(?)");
+        $stmt->execute([$kategori_nama]);
+        $kategori = $stmt->fetch();
+        if ($kategori) {
+            $kategori_id = $kategori['id'];
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO kategori (nama_kategori) VALUES (?)");
+            $stmt->execute([$kategori_nama]);
+            $kategori_id = $pdo->lastInsertId();
+        }
+    }
 
     $gambar = $produk['gambar'];
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
@@ -44,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $stmt = $pdo->prepare("UPDATE barang SET nama_barang = ?, deskripsi = ?, harga = ?, stok = ?, gambar = ? WHERE id = ?");
-    $stmt->execute([$nama, $deskripsi, $harga, $stok, $gambar, $id]);
+    $stmt = $pdo->prepare("UPDATE barang SET nama_barang = ?, deskripsi = ?, harga = ?, stok = ?, gambar = ?, kategori_id = ? WHERE id = ?");
+    $stmt->execute([$nama, $deskripsi, $harga, $stok, $gambar, $kategori_id, $id]);
 
     echo "<div class='p-4 bg-green-100 text-green-800 rounded mt-4'>
             Produk berhasil diperbarui. <a href='/marketplace/index.php?page=admin-dashboard' class='underline text-blue-600'>Kembali ke Dashboard</a>
@@ -54,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -74,6 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div>
                         <label class="block font-medium mb-1">Nama Barang</label>
                         <input type="text" name="nama_barang" value="<?= htmlspecialchars($produk['nama_barang']) ?>" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-medium mb-1">Kategori</label>
+                        <input type="text" name="kategori_nama" value="<?= htmlspecialchars($produk['nama_kategori'] ?? '') ?>" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200" placeholder="Masukkan nama kategori">
                     </div>
 
                     <div>

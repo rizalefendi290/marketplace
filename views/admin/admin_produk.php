@@ -28,6 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deskripsi = $_POST['deskripsi'];
     $harga = (int) $_POST['harga'];
     $stok = (int) $_POST['stok'];
+    $kategori_nama = trim($_POST['kategori_nama']);
+
+    // Cek kategori, buat baru jika belum ada
+    $kategori_id = null;
+    if ($kategori_nama !== '') {
+        $stmt = $pdo->prepare("SELECT id FROM kategori WHERE LOWER(nama_kategori) = LOWER(?)");
+        $stmt->execute([$kategori_nama]);
+        $kategori = $stmt->fetch();
+        if ($kategori) {
+            $kategori_id = $kategori['id'];
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO kategori (nama_kategori) VALUES (?)");
+            $stmt->execute([$kategori_nama]);
+            $kategori_id = $pdo->lastInsertId();
+        }
+    }
 
     // Upload gambar
     $gambar = null;
@@ -52,14 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$error_message) {
-        $stmt = $pdo->prepare("INSERT INTO barang (toko_id, nama_barang, deskripsi, harga, stok, gambar) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$toko_id, $nama_barang, $deskripsi, $harga, $stok, $gambar]);
+        $stmt = $pdo->prepare("INSERT INTO barang (toko_id, kategori_id, nama_barang, deskripsi, harga, stok, gambar) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$toko_id, $kategori_id, $nama_barang, $deskripsi, $harga, $stok, $gambar]);
         $success_message = "Produk berhasil ditambahkan.";
     }
 }
 
 // Ambil produk toko
-$stmt = $pdo->prepare("SELECT * FROM barang WHERE toko_id = ?");
+$stmt = $pdo->prepare("SELECT b.*, k.nama_kategori FROM barang b LEFT JOIN kategori k ON b.kategori_id = k.id WHERE b.toko_id = ?");
 $stmt->execute([$toko_id]);
 $produk = $stmt->fetchAll();
 ?>
@@ -100,6 +116,10 @@ $produk = $stmt->fetchAll();
                             <input type="text" name="nama_barang" required class="w-full border rounded px-3 py-2">
                         </div>
                         <div>
+                            <label class="block font-medium">Kategori</label>
+                            <input type="text" name="kategori_nama" required class="w-full border rounded px-3 py-2" placeholder="Masukkan nama kategori">
+                        </div>
+                        <div>
                             <label class="block font-medium">Deskripsi</label>
                             <textarea name="deskripsi" rows="3" class="w-full border rounded px-3 py-2"></textarea>
                         </div>
@@ -124,7 +144,42 @@ $produk = $stmt->fetchAll();
                         </div>
                     </form>
                 </div>
-                <!-- Daftar produk bisa ditampilkan di sini -->
+
+                <!-- Daftar produk -->
+                <div class="bg-white p-6 rounded shadow">
+                    <h2 class="text-lg font-semibold mb-4">Daftar Produk</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 border">Nama Barang</th>
+                                    <th class="px-4 py-2 border">Kategori</th>
+                                    <th class="px-4 py-2 border">Harga</th>
+                                    <th class="px-4 py-2 border">Stok</th>
+                                    <th class="px-4 py-2 border">Gambar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($produk as $row): ?>
+                                    <tr>
+                                        <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_barang']) ?></td>
+                                        <td class="px-4 py-2 border"><?= htmlspecialchars($row['nama_kategori'] ?? '-') ?></td>
+                                        <td class="px-4 py-2 border">Rp<?= number_format($row['harga'], 0, ',', '.') ?></td>
+                                        <td class="px-4 py-2 border"><?= $row['stok'] ?></td>
+                                        <td class="px-4 py-2 border">
+                                            <?php if (!empty($row['gambar']) && file_exists(__DIR__ . '/../../uploads/' . $row['gambar'])): ?>
+                                                <img src="/marketplace/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="Gambar" class="w-16 h-16 object-cover rounded">
+                                            <?php else: ?>
+                                                <span class="text-gray-400">-</span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End daftar produk -->
             </div>
         </div>
     </div>

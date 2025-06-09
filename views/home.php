@@ -10,6 +10,30 @@ $stmt = $pdo->query("
     LIMIT 4
 ");
 $barangUnggulan = $stmt->fetchAll();
+
+// Ambil semua toko untuk grid toko pilihan
+$stmtToko = $pdo->query("SELECT id, nama_toko, logo FROM toko ORDER BY id DESC");
+$tokoList = $stmtToko->fetchAll();
+
+// Jika ada pencarian
+$produk_list = [];
+$toko_list = [];
+if (isset($_GET['q']) && trim($_GET['q']) !== '') {
+    $q = '%' . trim($_GET['q']) . '%';
+    // Cari produk
+    $stmt = $pdo->prepare("SELECT b.*, t.nama_toko FROM barang b JOIN toko t ON b.toko_id = t.id WHERE b.nama_barang LIKE ? OR t.nama_toko LIKE ? ORDER BY b.id DESC");
+    $stmt->execute([$q, $q]);
+    $produk_list = $stmt->fetchAll();
+
+    // Cari toko
+    $stmt = $pdo->prepare("SELECT id, nama_toko, logo FROM toko WHERE nama_toko LIKE ? ORDER BY id DESC");
+    $stmt->execute([$q]);
+    $toko_list = $stmt->fetchAll();
+}
+
+// Ambil semua kategori untuk grid kategori
+$stmtKategori = $pdo->query("SELECT id, nama_kategori FROM kategori ORDER BY nama_kategori ASC");
+$kategoriList = $stmtKategori->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +63,21 @@ $barangUnggulan = $stmt->fetchAll();
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Selamat Datang di <span class="text-yellow-300">Marketplace Desa</span></h1>
         <p class="text-lg md:text-xl text-blue-50 mb-8">Temukan produk UMKM terbaik dari desa Anda, langsung dari pelaku usaha lokal!</p>
         <a href="#unggulan" class="inline-block bg-white text-green-700 font-semibold px-8 py-3 rounded-full shadow hover:bg-green-50 transition">Lihat Barang Unggulan</a>
+      </div>
+    </div>
+
+        <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold text-yellow-400 mb-8 text-center">Kategori Produk</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+        <?php if ($kategoriList): ?>
+          <?php foreach ($kategoriList as $kategori): ?>
+            <a href="index.php?page=kategori&id=<?= $kategori['id'] ?>" class="block bg-white rounded-xl shadow hover:shadow-lg transition p-6 text-center border border-yellow-300 hover:bg-yellow-50">
+              <span class="text-lg font-semibold text-yellow-700"><?= htmlspecialchars($kategori['nama_kategori']) ?></span>
+            </a>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="col-span-full text-center text-gray-400 py-8">Belum ada kategori terdaftar.</div>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -103,6 +142,35 @@ $barangUnggulan = $stmt->fetchAll();
       </div>
     </div>
 
+    <!-- Grid Toko: Menampilkan semua toko -->
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold text-blue-400 mb-8 text-center">Toko Pilihan</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <?php if ($tokoList): ?>
+          <?php foreach ($tokoList as $toko): ?>
+            <?php
+            $logo_path = realpath(__DIR__ . '/../uploads/' . $toko['logo']);
+            ?>
+            <a href="index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-4 bg-white hover:shadow-lg transition text-center">
+              <?php if (!empty($toko['logo']) && $logo_path && file_exists($logo_path)): ?>
+                <img src="/marketplace/uploads/<?= htmlspecialchars($toko['logo']) ?>" class="w-16 h-16 object-cover rounded-full mx-auto mb-2" alt="<?= htmlspecialchars($toko['nama_toko']) ?>">
+              <?php else: ?>
+                <div class="w-16 h-16 flex items-center justify-center bg-gray-200 text-gray-400 rounded-full mx-auto mb-2">No Logo</div>
+              <?php endif; ?>
+              <div class="font-semibold text-gray-800"><?= htmlspecialchars($toko['nama_toko']) ?></div>
+            </a>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="col-span-full text-center text-gray-400 py-8">Belum ada toko terdaftar.</div>
+        <?php endif; ?>
+      </div>
+      <div class="mt-10 text-center">
+        <a href="index.php?page=semua-toko" class="inline-block bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold px-10 py-4 rounded-full shadow-lg text-lg transition">
+          Lihat Semua Toko
+        </a>
+      </div>
+    </div>
+
     <?php if (isset($_GET['q']) && trim($_GET['q']) !== ''): ?>
       <h2 class="text-xl font-bold mb-4">Hasil Pencarian: "<?= htmlspecialchars($_GET['q']) ?>"</h2>
       <h3 class="text-lg font-semibold mt-6 mb-2">Produk</h3>
@@ -129,8 +197,11 @@ $barangUnggulan = $stmt->fetchAll();
       <?php if ($toko_list): ?>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
           <?php foreach ($toko_list as $toko): ?>
+            <?php
+            $logo_path = realpath(__DIR__ . '/../uploads/' . $toko['logo']);
+            ?>
             <a href="/marketplace/index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-3 bg-white hover:shadow-lg transition text-center">
-              <?php if (!empty($toko['logo']) && file_exists(__DIR__ . '/../../uploads/' . $toko['logo'])): ?>
+              <?php if (!empty($toko['logo']) && $logo_path && file_exists($logo_path)): ?>
                 <img src="/marketplace/uploads/<?= htmlspecialchars($toko['logo']) ?>" class="w-16 h-16 object-cover rounded-full mx-auto mb-2" alt="<?= htmlspecialchars($toko['nama_toko']) ?>">
               <?php else: ?>
                 <div class="w-16 h-16 flex items-center justify-center bg-gray-200 text-gray-400 rounded-full mx-auto mb-2">No Logo</div>

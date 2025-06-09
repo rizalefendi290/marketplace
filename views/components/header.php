@@ -1,4 +1,7 @@
 <?php
+// Tambahkan di atas <html> pada header.php
+require_once __DIR__ . '/../../config/database.php';
+$kategoriList = $pdo->query("SELECT id, nama_kategori FROM kategori ORDER BY nama_kategori ASC")->fetchAll();
 $nama_user = '';
 $foto_profil = '';
 $email_user = '';
@@ -33,7 +36,7 @@ if (isset($_SESSION['user_id'])) {
             </a>
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
                 <form action="/marketplace/index.php" method="get" class="hidden md:block mr-4">
-                    <input type="hidden" name="page" value="home">
+                    <input type="hidden" name="page" value="search">
                     <input
                         type="text"
                         name="q"
@@ -102,16 +105,20 @@ if (isset($_SESSION['user_id'])) {
                         <a href="/marketplace/index.php?page=home" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
+                        <a href="/marketplace/index.php?page=produk" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Semua Produk</a>
+                    </li>
+                    <li class="relative group">
+                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Kategori</a>
+                        <ul class="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg hidden group-hover:block z-50">
+                            <?php foreach ($kategoriList as $kategori): ?>
+                                <li>
+                                    <a href="/marketplace/index.php?page=kategori&id=<?= $kategori['id'] ?>" class="block px-4 py-2 hover:bg-gray-100"><?= htmlspecialchars($kategori['nama_kategori']) ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </li>
                     <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+                        <a href="/marketplace/index.php?page=semua-toko" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500">Semua Toko</a>
                     </li>
                 </ul>
             </div>
@@ -119,4 +126,5 @@ if (isset($_SESSION['user_id'])) {
     </nav>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
+
 </html>

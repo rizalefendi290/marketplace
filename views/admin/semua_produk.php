@@ -30,8 +30,8 @@ $stmt->execute([$toko_id]);
 $totalData = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $totalPages = ceil($totalData / $perPage);
 
-// Ambil data produk
-$stmt = $pdo->prepare("SELECT * FROM barang WHERE toko_id = ? ORDER BY id DESC LIMIT $perPage OFFSET $start");
+// Ambil data produk beserta kategori
+$stmt = $pdo->prepare("SELECT b.*, k.nama_kategori FROM barang b LEFT JOIN kategori k ON b.kategori_id = k.id WHERE b.toko_id = ? ORDER BY b.id DESC LIMIT $perPage OFFSET $start");
 $stmt->execute([$toko_id]);
 $produk = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -57,6 +57,7 @@ $produk = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <th class="p-3 border-b">No</th>
                             <th class="p-3 border-b">Nama Barang</th>
+                            <th class="p-3 border-b">Kategori</th>
                             <th class="p-3 border-b">Deskripsi</th>
                             <th class="p-3 border-b">Harga</th>
                             <th class="p-3 border-b">Stok</th>
@@ -71,6 +72,7 @@ $produk = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <tr class="hover:bg-gray-50 border-b">
                                     <td class="p-3"><?= $no++ ?></td>
                                     <td class="p-3"><?= htmlspecialchars($p['nama_barang']) ?></td>
+                                    <td class="p-3"><?= htmlspecialchars($p['nama_kategori'] ?? '-') ?></td>
                                     <td class="p-3"><?= htmlspecialchars($p['deskripsi']) ?></td>
                                     <td class="p-3">Rp <?= number_format($p['harga'], 0, ',', '.') ?></td>
                                     <td class="p-3"><?= $p['stok'] ?></td>
@@ -89,7 +91,7 @@ $produk = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" class="p-4 text-center text-gray-500">Tidak ada produk.</td>
+                                <td colspan="8" class="p-4 text-center text-gray-500">Tidak ada produk.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

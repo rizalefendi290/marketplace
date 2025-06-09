@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14 bg-white">
             <div class="max-w-2xl mx-auto p-6 bg-white shadow-md mt-8 rounded-lg">
                 <h2 class="text-2xl font-bold mb-6 text-center text-green-700">Edit Informasi Toko</h2>
-                <form method="POST" class="space-y-5">
+                <form method="POST" class="space-y-5" enctype="multipart/form-data">
                     <div>
                         <label class="block font-medium mb-1">Nama Toko</label>
                         <input type="text" name="nama_toko" value="<?= htmlspecialchars($toko['nama_toko']) ?>" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-green-200">
