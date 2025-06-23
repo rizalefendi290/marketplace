@@ -117,27 +117,27 @@ if (isset($_POST['konfirmasi'])) {
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-2xl mx-auto px-4 py-12">
-        <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-red-600">Checkout</h1>
+        <header class="bg-gray-900 border border-yellow-400 shadow px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-yellow-500">Checkout</h1>
         </header>
 
         <main class="max-w-5xl mx-auto mt-6 space-y-6">
 
             <!-- Alamat Pengiriman -->
-            <section class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold mb-4">📍 Alamat Pengiriman</h2>
+            <section class="bg-gray-900 border border-yellow-300 p-6 rounded-lg shadow">
+                <h2 class="text-lg text-yellow-500 font-semibold mb-4">📍 Alamat Pengiriman</h2>
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="font-medium">
+                        <p class="font-medium text-white">
                             <?= htmlspecialchars($user['nama'] ?? 'Nama belum diatur') ?>
-                            <span class="text-gray-600">(<?= htmlspecialchars($user['nomor_hp'] ?? '-') ?>)</span>
+                            <span class="text-white">(<?= htmlspecialchars($user['nomor_hp'] ?? '-') ?>)</span>
                         </p>
-                        <p class="text-gray-700 text-sm">
+                        <p class="text-white text-sm">
                             <?= htmlspecialchars($user['alamat'] ?? 'Alamat belum diatur.') ?>
                         </p>
                     </div>
                     <!-- Tombol Ubah -->
-                    <button onclick="document.getElementById('modal-ubah-alamat').classList.remove('hidden')" class="text-blue-600 font-semibold hover:underline">Ubah</button>
+                    <button onclick="document.getElementById('modal-ubah-alamat').classList.remove('hidden')" class="text-yellow-500 font-semibold hover:underline">Ubah</button>
                 </div>
                 <div class="mt-3">
                     <label class="inline-flex items-center space-x-2">
@@ -173,19 +173,19 @@ if (isset($_POST['konfirmasi'])) {
             </div>
 
             <!-- Produk Dipesan -->
-            <section class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold mb-4">🛒 Produk Dipesan</h2>
+            <section class="bg-gray-900 border border-yellow-300 p-6 rounded-lg shadow">
+                <h2 class="text-lg text-yellow-500 font-semibold mb-4">🛒 Produk Dipesan</h2>
                 <div class="space-y-4">
                     <?php foreach ($barangs as $barang): ?>
                     <div class="border-t pt-4">
                         <div class="flex justify-between items-center">
                             <div class="space-y-1">
-                                <p class="font-semibold"><?= htmlspecialchars($barang['nama_toko']) ?></p>
-                                <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                <p class="font-semibold text-white"><?= htmlspecialchars($barang['nama_toko']) ?></p>
+                                <div class="flex items-center space-x-2 text-sm text-white">
                                     <?php if ($barang['gambar']): ?>
                                         <img src="/marketplace/uploads/<?= htmlspecialchars($barang['gambar']) ?>" class="w-12 h-12 object-cover rounded border" alt="">
                                     <?php else: ?>
-                                        <div class="w-12 h-12 flex items-center justify-center bg-gray-200 text-gray-400 rounded border">-</div>
+                                        <div class="w-12 h-12 flex items-center justify-center bg-gray-200 text-white rounded border">-</div>
                                     <?php endif; ?>
                                     <div>
                                         <p><?= htmlspecialchars($barang['nama_barang']) ?></p>
@@ -193,7 +193,7 @@ if (isset($_POST['konfirmasi'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right text-yellow-500">
                                 <p class="text-sm">Harga Satuan</p>
                                 <p class="font-semibold">Rp<?= number_format($barang['harga'], 0, ',', '.') ?></p>
                                 <p class="text-sm mt-2">Subtotal: Rp<?= number_format($barang['subtotal'], 0, ',', '.') ?></p>
@@ -205,17 +205,17 @@ if (isset($_POST['konfirmasi'])) {
                     <div class="mt-4 text-sm">
                         <label class="flex items-center space-x-2">
                             <input type="checkbox" class="accent-red-500" name="proteksi" form="checkout-form" value="1" <?= isset($_POST['proteksi']) ? 'checked' : '' ?>>
-                            <span>Proteksi Kerusakan + <span class="text-gray-600">(Rp500)</span></span>
+                            <span class="text-gray-400">Proteksi Kerusakan + <span class="text-gray-100">(Rp500)</span></span>
                         </label>
-                        <p class="text-xs text-gray-500">Melindungi produkmu dari kerusakan/kerugian total selama 6 bulan.</p>
+                        <p class="text-xs text-gray-50">Melindungi produkmu dari kerusakan/kerugian total selama 6 bulan.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Total & Bayar -->
-            <section class="bg-white p-6 rounded-lg shadow text-right space-y-4">
-                <div class="text-lg font-semibold">
-                    Total Pembayaran: <span class="text-red-600">Rp<?= number_format($total_pembayaran, 0, ',', '.') ?></span>
+            <section class="bg-gray-900 border border-yellow-300 p-6 rounded-lg shadow text-right space-y-4">
+                <div class="text-lg text-white font-semibold">
+                    Total Pembayaran: <span class="text-yellow-500">Rp<?= number_format($total_pembayaran, 0, ',', '.') ?></span>
                 </div>
                 <form id="checkout-form" method="POST" class="space-y-5 z-10 relative">
                     <?php foreach ($barangs as $barang): ?>
@@ -223,8 +223,8 @@ if (isset($_POST['konfirmasi'])) {
                         <input type="hidden" name="jumlah[]" value="<?= $barang['jumlah'] ?>">
                     <?php endforeach; ?>
                     <div>
-                        <label for="metode" class="block text-gray-700 mb-1 font-medium">Metode Pembayaran</label>
-                        <select name="metode_pembayaran" id="metode" required class="w-full px-3 py-2 rounded border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring focus:ring-green-200">
+                        <label for="metode" class="block text-gray-50 mb-1 font-medium">Metode Pembayaran</label>
+                        <select name="metode_pembayaran" id="metode" required class="w-full px-3 py-2 rounded border border-yellow-300 bg-gray-900 text-yellow-500 focus:outline-none focus:ring focus:ring-green-200">
                             <option value="">-- Pilih Metode --</option>
                             <option value="Transfer Bank">Transfer Bank</option>
                             <option value="e-Wallet">e-Wallet</option>
@@ -233,15 +233,15 @@ if (isset($_POST['konfirmasi'])) {
                     </div>
                     <label class="flex items-center space-x-2">
                         <input type="checkbox" class="accent-red-500" name="proteksi" value="1" <?= isset($_POST['proteksi']) ? 'checked' : '' ?>>
-                        <span>Proteksi Kerusakan + <span class="text-gray-600">(Rp500)</span></span>
+                        <span class="text-gray-50">Proteksi Kerusakan + <span class="text-gray-50">(Rp500)</span></span>
                     </label>
-                    <button type="submit" name="konfirmasi" class="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-black font-semibold px-6 py-2 rounded-lg shadow transition">
+                    <button type="submit" name="konfirmasi" class="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-yellow-500 font-semibold px-6 py-2 rounded-lg shadow transition">
                         Konfirmasi & Verifikasi Pembayaran
                     </button>
                 </form>
             </section>
             <div class="mt-8 text-center">
-                <a href="javascript:history.back()" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">← Kembali</a>
+                <a href="javascript:history.back()" class="inline-block bg-gray-900 text-yellow-500 border border-yellow-300 font-semibold px-6 py-2 rounded-full shadow hover:bg-yellow-600 hover:text-black transition">← Kembali</a>
             </div>
         </main>
     </div>

@@ -105,7 +105,7 @@ $kategoriList = $stmtKategori->fetchAll();
           $terjual = $stmtTerjual->fetchColumn();
           if (!$terjual) $terjual = 0;
           ?>
-          <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-green-800 group relative overflow-hidden">
+          <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-yellow-300 group relative overflow-hidden">
             <!-- Ribbon -->
             <div class="absolute left-0 top-0 bg-gradient-to-r from-green-500 to-blue-500 text-yellow-400 text-xs px-3 py-1 rounded-br-2xl font-bold shadow group-hover:scale-105 transition">Unggulan</div>
             <a href="index.php?page=detail-barang&id=<?= $barang['id'] ?>">
@@ -151,7 +151,7 @@ $kategoriList = $stmtKategori->fetchAll();
             <?php
             $logo_path = realpath(__DIR__ . '/../uploads/' . $toko['logo']);
             ?>
-            <a href="index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-4 bg-gray-900 hover:shadow-lg transition text-center">
+            <a href="index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border border-yellow-300 rounded-lg p-4 bg-gray-900 hover:shadow-lg transition text-center">
               <?php if (!empty($toko['logo']) && $logo_path && file_exists($logo_path)): ?>
                 <img src="/marketplace/uploads/<?= htmlspecialchars($toko['logo']) ?>" class="w-16 h-16 object-cover rounded-full mx-auto mb-2" alt="<?= htmlspecialchars($toko['nama_toko']) ?>">
               <?php else: ?>

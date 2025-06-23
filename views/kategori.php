@@ -55,7 +55,7 @@ $produkList = $stmt->fetchAll();
                     $terjual = $stmtTerjual->fetchColumn();
                     if (!$terjual) $terjual = 0;
                     ?>
-                    <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-green-800 group relative overflow-hidden">
+                    <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-yellow-300 group relative overflow-hidden">
                         <a href="index.php?page=detail-barang&id=<?= $produk['id'] ?>">
                             <?php if (!empty($produk['gambar']) && file_exists(__DIR__ . '/../uploads/' . $produk['gambar'])): ?>
                                 <img class="rounded-xl w-full h-40 object-cover mb-3 border border-gray-700 group-hover:scale-105 transition" src="/marketplace/uploads/<?= htmlspecialchars($produk['gambar']) ?>" alt="<?= htmlspecialchars($produk['nama_barang']) ?>" />
@@ -67,7 +67,7 @@ $produkList = $stmt->fetchAll();
                             <a href="index.php?page=detail-barang&id=<?= $produk['id'] ?>">
                                 <h5 class="mb-2 text-lg font-bold tracking-tight text-white hover:text-green-400 transition"><?= htmlspecialchars($produk['nama_barang']) ?></h5>
                             </a>
-                            <p class="mb-1 text-sm text-gray-400">Toko: <span class="font-semibold text-green-400"><?= htmlspecialchars($produk['nama_toko']) ?></span></p>
+                            <p class="mb-1 text-sm text-white">Toko: <span class="font-semibold text-yellow-500"><?= htmlspecialchars($produk['nama_toko']) ?></span></p>
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="text-yellow-400 flex items-center">
                                     <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
@@ -76,9 +76,9 @@ $produkList = $stmt->fetchAll();
                                     <?= $rata2 ?>
                                 </span>
                                 <span class="text-gray-400 text-xs">(<?= $total_ulasan ?> ulasan)</span>
-                                <span class="text-blue-400 text-xs ml-auto"><?= $terjual ?> terjual</span>
+                                <span class="text-yellow-500 text-xs ml-auto"><?= $terjual ?> terjual</span>
                             </div>
-                            <p class="mb-3 font-semibold text-green-400 text-xl">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></p>
+                            <p class="mb-3 font-semibold text-yellow-500 text-xl">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></p>
                         </div>
                         <a href="index.php?page=detail-barang&id=<?= $produk['id'] ?>" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-blue-500 rounded-lg shadow hover:from-green-600 hover:to-blue-600 focus:ring-4 focus:outline-none focus:ring-green-200 transition">
                             Lihat Detail

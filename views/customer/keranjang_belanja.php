@@ -39,8 +39,8 @@ foreach ($items as $item) {
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-4xl mx-auto px-4 py-12">
-        <h1 class="text-2xl font-bold text-green-400 mb-6 text-center">Keranjang Belanja</h1>
-        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-green-800 mb-8">
+        <h1 class="text-2xl font-bold text-yellow-500 mb-6 text-center">Keranjang Belanja</h1>
+        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-yellow-300 mb-8">
             <?php if (empty($items)): ?>
                 <div class="text-center text-gray-400 py-12">Keranjang belanja Anda kosong.</div>
             <?php else: ?>
@@ -53,7 +53,7 @@ foreach ($items as $item) {
                                 <div class="flex-1">
                                     <div class="text-white font-semibold"><?= htmlspecialchars($item['nama_barang']) ?></div>
                                     <div class="text-gray-400 text-sm">Toko: <?= htmlspecialchars($item['nama_toko']) ?></div>
-                                    <div class="text-gray-400 text-sm">Harga: <span class="line-through">Rp<?= number_format($item['harga'] + 5000, 0, ',', '.') ?></span> <span class="text-orange-400 font-bold">Rp<?= number_format($item['harga'], 0, ',', '.') ?></span></div>
+                                    <div class="text-gray-400 text-sm">Harga: <span class="line-through">Rp<?= number_format($item['harga'] + 5000, 0, ',', '.') ?></span> <span class="text-yellow-500 font-bold">Rp<?= number_format($item['harga'], 0, ',', '.') ?></span></div>
                                     <div class="flex items-center mt-2 gap-2">
                                         <label class="text-sm text-gray-300">Jumlah:</label>
                                         <div class="flex items-center border border-gray-600 rounded px-2 py-1">
@@ -64,7 +64,7 @@ foreach ($items as $item) {
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-green-400 font-bold subtotal">Subtotal: Rp<?= number_format($item['jumlah'] * $item['harga'], 0, ',', '.') ?></div>
+                                    <div class="text-yellow-500 font-bold subtotal">Subtotal: Rp<?= number_format($item['jumlah'] * $item['harga'], 0, ',', '.') ?></div>
                                     <a href="/marketplace/index.php?page=hapus-keranjang&id=<?= $item['keranjang_id'] ?>" class="text-red-500 hover:underline text-xs mt-2 block">Hapus</a>
                                 </div>
                                 <!-- Hidden input untuk barang_id dan keranjang_id -->
@@ -77,7 +77,7 @@ foreach ($items as $item) {
                     <div id="checkout-hidden-inputs"></div>
                     <div class="flex justify-between items-center bg-gray-800 text-white p-4 mt-6 rounded-lg">
                         <div class="text-lg">
-                            Total (<span><?= count($items) ?></span> produk): <span class="text-green-400 font-bold total-nominal">Rp<?= number_format($total, 0, ',', '.') ?></span>
+                            Total (<span><?= count($items) ?></span> produk): <span class="text-yellow-500 font-bold total-nominal">Rp<?= number_format($total, 0, ',', '.') ?></span>
                         </div>
                         <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-full shadow">Checkout</button>
                     </div>
@@ -85,7 +85,7 @@ foreach ($items as $item) {
             <?php endif; ?>
         </div>
         <div class="text-center">
-            <a href="/marketplace/index.php?page=home" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">Kembali ke Beranda</a>
+            <a href="/marketplace/index.php?page=home" class="inline-block bg-gray-900 text-yellow-500 border border-yellow-300 font-semibold px-6 py-2 rounded-full shadow hover:bg-yellow-600 hover:text-black transition">Kembali ke Beranda</a>
         </div>
     </div>
 

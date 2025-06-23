@@ -88,30 +88,30 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer') {
                     <?php if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer'): ?>
                         <?php if ($is_following): ?>
                             <form method="post" action="/marketplace/index.php?page=unfollow-toko&id=<?= $toko_id ?>">
-                                <button type="submit" class="bg-white text-gray-600 font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-100 transition">Mengikuti</button>
+                                <button type="submit" class="bg-gray-900 text-yellow-300 font-semibold px-5 py-2 rounded-full shadow hover:bg-yellow-500 hover:text-black transition">Mengikuti</button>
                             </form>
                         <?php else: ?>
                             <form method="post" action="/marketplace/index.php?page=follow-toko&id=<?= $toko_id ?>">
-                                <button type="submit" class="bg-white text-red-600 font-semibold px-5 py-2 rounded-full shadow hover:bg-red-50 transition">+ Ikuti</button>
+                                <button type="submit" class="bg-gray-900 text-red-600 font-semibold px-5 py-2 rounded-full shadow hover:bg-red-50 transition">+ Ikuti</button>
                             </form>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <button class="bg-white text-orange-600 font-semibold px-5 py-2 rounded-full shadow hover:bg-orange-50 transition">Chat</button>
+                    <button class="bg-yellow-300 text-black font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-900 hover:text-yellow-500 transition">Chat</button>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white border-b border-gray-200">
-            <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-gray-700 font-medium">
-                <a href="#" class="hover:text-red-600 transition">Halaman Utama</a>
-                <a href="/marketplace/index.php?page=produk-toko&id=<?= $toko_id ?>" class="hover:text-red-600 transition">Semua Produk</a>
+        <div class="bg-black border-b border-yellow-300">
+            <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap gap-4 text-yellow-300 font-medium">
+                <a href="#" class="hover:text-yellow-500 transition">Halaman Utama</a>
+                <a href="/marketplace/index.php?page=produk-toko&id=<?= $toko_id ?>" class="hover:text-yellow-500 transition">Semua Produk</a>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-6 mb-8 mt-6">
-            <h2 class="text-xl font-semibold mb-4">Produk dari Toko Ini</h2>
+        <div class="bg-gray-900 border border-yellow-300 rounded-2xl shadow p-6 mb-8 mt-6">
+            <h2 class="text-xl font-semibold mb-4 text-yellow-300">Produk dari Toko Ini</h2>
             <?php if ($produk_list): ?>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div class="bg-gray-900 grid grid-cols-2 md:grid-cols-5 gap-6">
                     <?php foreach ($produk_list as $produk): ?>
                         <?php
                         // Ambil rata-rata rating dan jumlah ulasan produk
@@ -132,14 +132,14 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer') {
                         $terjual = $stmtTerjual->fetchColumn();
                         if (!$terjual) $terjual = 0;
                         ?>
-                        <a href="/marketplace/index.php?page=detail-barang&id=<?= $produk['id'] ?>" class="block border rounded-xl overflow-hidden hover:shadow-lg transition bg-white">
+                        <a href="/marketplace/index.php?page=detail-barang&id=<?= $produk['id'] ?>" class="block border border-yellow-300 rounded-xl overflow-hidden hover:shadow-lg transition bg-white">
                             <?php if (!empty($produk['gambar']) && file_exists(__DIR__ . '/../../uploads/' . $produk['gambar'])): ?>
                                 <img src="/marketplace/uploads/<?= htmlspecialchars($produk['gambar']) ?>" class="w-full h-32 object-cover bg-gray-100" alt="<?= htmlspecialchars($produk['nama_barang']) ?>">
                             <?php else: ?>
                                 <div class="w-full h-32 flex items-center justify-center bg-gray-100 text-gray-400">Tidak Ada Gambar</div>
                             <?php endif; ?>
-                            <div class="px-2 py-2">
-                                <div class="text-sm font-medium text-gray-800 truncate"><?= htmlspecialchars($produk['nama_barang']) ?></div>
+                            <div class="bg-gray-900 px-2 py-2">
+                                <div class="text-sm font-medium text-white truncate"><?= htmlspecialchars($produk['nama_barang']) ?></div>
                                 <div class="flex items-center gap-2 text-xs text-gray-500 mt-1">
                                     <span class="text-yellow-500 flex items-center">
                                         <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
@@ -148,9 +148,9 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer') {
                                         <?= $rata2 ?>
                                     </span>
                                     <span>(<?= $total_ulasan ?> ulasan)</span>
-                                    <span class="ml-auto text-blue-500"><?= $terjual ?> terjual</span>
+                                    <span class="ml-auto text-yellow-300"><?= $terjual ?> terjual</span>
                                 </div>
-                                <div class="text-red-500 font-bold mt-1 text-sm">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></div>
+                                <div class="text-yellow-300 font-bold mt-1 text-sm">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></div>
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -161,7 +161,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['role'] === 'customer') {
         </div>
 
         <div class="text-center mb-10">
-            <a href="/marketplace/index.php?page=home" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">Kembali ke Beranda</a>
+            <a href="/marketplace/index.php?page=home" class="inline-block bg-gray-900 text-yellow-300 hover:text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-yellow-500 transition">Kembali ke Beranda</a>
         </div>
 
         <footer class="mt-16">

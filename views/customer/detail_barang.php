@@ -131,7 +131,7 @@ if (
                             <input type="number" name="jumlah[]" value="1" min="1" max="<?= $produk['stok'] ?>" class="ml-2 w-20 px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white">
                         </label>
                         <div class="flex gap-2">
-                            <button type="submit" name="tambah_keranjang" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg shadow transition">+ Keranjang</button>
+                            <button type="submit" name="tambah_keranjang" class="bg-yellow-500 hover:bg-orange-600 text-black font-semibold px-6 py-2 rounded-lg shadow transition">+ Keranjang</button>
                             <button type="submit" formaction="/marketplace/index.php?page=checkout" class="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow transition">Checkout</button>
                         </div>
                     </form>
@@ -160,7 +160,7 @@ if (
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded">Chat Sekarang</a>
-                    <a href="/marketplace/index.php?page=detail-toko&id=<?= $produk['toko_id'] ?>" class="border border-yellow-400 text-white px-4 py-2 rounded hover:bg-gray-100">Kunjungi Toko</a>
+                    <a href="/marketplace/index.php?page=detail-toko&id=<?= $produk['toko_id'] ?>" class="border border-yellow-400 text-white px-4 py-2 rounded hover:bg-gray-900">Kunjungi Toko</a>
                 </div>
             </div>
 
@@ -258,7 +258,7 @@ if (
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <div class="text-gray-400 text-center py-8">Belum ada ulasan untuk produk ini.</div>
+                <div class="text-yellow-500 text-center py-8">Belum ada ulasan untuk produk ini.</div>
             <?php endif; ?>
 
             <!-- Form tambah ulasan -->
@@ -267,7 +267,7 @@ if (
                     <form method="post" action="/marketplace/index.php?page=proses-ulasan" class="space-y-3">
                         <input type="hidden" name="barang_id" value="<?= $produk['id'] ?>">
                         <div>
-                            <label class="block text-gray-700 font-medium mb-1">Rating</label>
+                            <label class="block text-yellow-500 font-medium mb-1">Rating</label>
                             <select name="rating" required class="rounded border px-3 py-2 bg-gray-100">
                                 <option value="">Pilih rating</option>
                                 <?php for ($i = 5; $i >= 1; $i--): ?>
@@ -276,10 +276,10 @@ if (
                             </select>
                         </div>
                         <div>
-                            <label class="block text-gray-700 font-medium mb-1">Komentar</label>
+                            <label class="block text-yellow-500 font-medium mb-1">Komentar</label>
                             <textarea name="komentar" rows="2" required class="w-full rounded border px-3 py-2 bg-gray-100"></textarea>
                         </div>
-                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-semibold">Kirim Ulasan</button>
+                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-black px-6 py-2 rounded font-semibold">Kirim Ulasan</button>
                     </form>
                 </div>
             <?php endif; ?>

@@ -76,6 +76,38 @@ switch ($page) {
     include 'views/admin/pengajuan_dana.php';
     break;
 
+  case 'daftar-pengajuan':
+    include 'views/petugas_desa/daftar-pengajuan.php';
+    break;
+
+  case 'detail-pengajuan':
+    if ($_GET['page'] === 'detail-pengajuan') {
+      include 'views/petugas_desa/detail_pengajuan.php';
+    }
+
+  case 'cetak-pengajuan':
+    if ($_GET['page'] === 'cetak-pengajuan') {
+      include 'views/petugas_desa/cetak_pengajuan.php';
+
+      if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+
+        if ($page == 'detail-pengajuan') {
+          include 'views/petugas_desa/detail_pengajuan.php';
+        }
+        // Tambahkan ini untuk route cetak PDF
+        elseif ($page == 'cetak-pengajuan') {
+          include 'views/petugas_desa/cetak_pengajuan.php';
+        }
+        // ... route lainnya
+      }
+    }
+
+
+  case 'riwayat-pengajuan-dana':
+    include 'views/admin/riwayat_pengajuan.php';
+    break;
+
   case 'verifikasi-transaksi':
     include 'views/admin/verifikasi_transaksi.php';
     break;
