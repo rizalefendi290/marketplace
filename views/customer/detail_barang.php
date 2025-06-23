@@ -100,7 +100,7 @@ if (
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-5xl mx-auto px-4 py-12">
-        <div class="bg-gray-900 rounded-2xl shadow-xl flex flex-col md:flex-row gap-10 p-8 border border-green-800 relative overflow-hidden">
+        <div class="bg-gray-900 rounded-2xl shadow-xl flex flex-col md:flex-row gap-10 p-8 border border-yellow-300 relative overflow-hidden">
             <!-- Decorative SVG -->
             <svg class="absolute left-0 top-0 w-40 h-40 opacity-10" viewBox="0 0 200 200" fill="none">
                 <circle cx="100" cy="100" r="100" fill="#fff" />
@@ -145,7 +145,7 @@ if (
                 <?php endif; ?>
             </div>
         </div>
-        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-10">
+        <div class="bg-gray-900 border border-yellow-300 p-6 shadow-md rounded-lg mt-10">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <?php if (!empty($produk['logo']) && file_exists(__DIR__ . '/../../uploads/' . $produk['logo'])): ?>
@@ -192,7 +192,7 @@ if (
             </div>
         </div>
 
-        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-8">
+        <div class="bg-gray-900 border border-yellow-300 p-6 shadow-md rounded-lg mt-8">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl text-yellow-400 font-semibold">Produk Lainnya dari Toko Ini</h3>
                 <a href="#" class="text-yellow-400 hover:underline text-sm">Lihat Semua</a>
@@ -218,7 +218,7 @@ if (
         </div>
 
         <!-- Ulasan & Komentar Produk -->
-        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-8">
+        <div class="bg-gray-900 border border-yellow-300 p-6 shadow-md rounded-lg mt-8">
             <h3 class="text-xl text-yellow-400 font-semibold mb-4">Ulasan & Komentar Produk</h3>
             <?php
             // Ambil ulasan produk

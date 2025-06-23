@@ -52,8 +52,8 @@ $detail = $stmt->fetchAll();
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-3xl mx-auto px-4 py-12">
-        <h1 class="text-2xl font-bold text-green-400 mb-6 text-center">Detail Pembelian</h1>
-        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-green-800 mb-8">
+        <h1 class="text-2xl font-bold text-yellow-500 mb-6 text-center">Detail Pembelian</h1>
+        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-yellow-300 mb-8">
             <div class="mb-4 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                 <div>
                     <div class="text-gray-300 text-sm">ID Transaksi</div>
@@ -85,9 +85,9 @@ $detail = $stmt->fetchAll();
                     <div class="mb-2 text-white"><?= htmlspecialchars($transaksi['no_telp']) ?></div>
                 </div>
             </div>
-            <hr class="my-4 border-green-800">
+            <hr class="my-4 border-yellow-300">
             <div>
-                <div class="text-lg font-semibold text-green-400 mb-3">Produk</div>
+                <div class="text-lg font-semibold text-yellow-500 mb-3">Produk</div>
                 <div class="space-y-4">
                     <?php foreach ($detail as $item): ?>
                         <div class="flex items-center gap-4 bg-gray-800 rounded-lg p-3">
@@ -99,14 +99,14 @@ $detail = $stmt->fetchAll();
                                 <div class="text-gray-400 text-sm">Toko: <?= htmlspecialchars($item['nama_toko']) ?></div>
                                 <div class="text-gray-400 text-sm">Jumlah: <?= $item['jumlah'] ?></div>
                                 <div class="text-gray-400 text-sm">Harga Satuan: Rp <?= number_format($item['harga_satuan'], 0, ',', '.') ?></div>
-                                <div class="text-green-400 font-semibold">Subtotal: Rp <?= number_format($item['jumlah'] * $item['harga_satuan'], 0, ',', '.') ?></div>
+                                <div class="text-yellow-500 font-semibold">Subtotal: Rp <?= number_format($item['jumlah'] * $item['harga_satuan'], 0, ',', '.') ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <div class="mt-6 text-right">
                     <span class="text-gray-300">Total:</span>
-                    <span class="text-2xl font-bold text-green-400">
+                    <span class="text-2xl font-bold text-yellow-500">
                         Rp <?= number_format(array_sum(array_map(function($i){return $i['jumlah']*$i['harga_satuan'];}, $detail)), 0, ',', '.') ?>
                     </span>
                 </div>

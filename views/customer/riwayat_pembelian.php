@@ -60,19 +60,19 @@ $riwayat = $stmt->fetchAll();
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-5xl mx-auto px-4 py-12">
-        <h1 class="text-3xl font-bold text-green-400 mb-8 text-center">Riwayat Pembelian</h1>
+        <h1 class="text-3xl font-bold text-yellow-500 mb-8 text-center">Riwayat Pembelian</h1>
         <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <!-- Filter Status -->
             <form method="get" class="flex gap-2 items-center">
                 <input type="hidden" name="page" value="riwayat-pembelian">
-                <select name="filter_status" class="rounded px-3 py-2 bg-gray-800 text-white border border-green-700">
+                <select name="filter_status" class="rounded px-3 py-2 bg-gray-800 text-white border border-yellow-300">
                     <option value="">Semua Status</option>
                     <option value="Menunggu Verifikasi" <?= (isset($_GET['filter_status']) && $_GET['filter_status'] == 'Menunggu Verifikasi') ? 'selected' : ''; ?>>Menunggu Verifikasi</option>
                     <option value="Diverifikasi" <?= (isset($_GET['filter_status']) && $_GET['filter_status'] == 'Diverifikasi') ? 'selected' : ''; ?>>Diverifikasi</option>
                     <option value="Selesai" <?= (isset($_GET['filter_status']) && $_GET['filter_status'] == 'Selesai') ? 'selected' : ''; ?>>Selesai</option>
                     <option value="Ditolak" <?= (isset($_GET['filter_status']) && $_GET['filter_status'] == 'Ditolak') ? 'selected' : ''; ?>>Ditolak</option>
                 </select>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Filter</button>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded">Filter</button>
             </form>
             <!-- Search -->
             <form method="get" class="flex gap-2 items-center">
@@ -93,8 +93,8 @@ $riwayat = $stmt->fetchAll();
             ?>
             <?php if (count($filtered) > 0): ?>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm text-left border">
-                        <thead class="bg-green-800 text-white">
+                    <table class="min-w-full text-sm text-left border border-yellow-300">
+                        <thead class="bg-yellow-500 text-black">
                             <tr>
                                 <th class="p-3 border-b">Tanggal</th>
                                 <th class="p-3 border-b">Produk</th>
@@ -109,7 +109,7 @@ $riwayat = $stmt->fetchAll();
                         </thead>
                         <tbody>
                             <?php foreach ($filtered as $row): ?>
-                                <tr class="hover:bg-gray-800 border-b">
+                                <tr class="hover:bg-gray-800 border-b border-yellow-300">
                                     <td class="p-3 text-white"><?= date('d/m/Y H:i', strtotime($row['tanggal_transaksi'])) ?></td>
                                     <td class="p-3 flex items-center gap-2">
                                         <?php if ($row['gambar']): ?>
@@ -119,7 +119,7 @@ $riwayat = $stmt->fetchAll();
                                     </td>
                                     <td class="p-3 text-white"><?= $row['jumlah'] ?></td>
                                     <td class="p-3 text-white">Rp <?= number_format($row['harga_satuan'], 0, ',', '.') ?></td>
-                                    <td class="p-3 font-semibold text-green-400">Rp <?= number_format($row['harga_satuan'] * $row['jumlah'], 0, ',', '.') ?></td>
+                                    <td class="p-3 font-semibold text-yellow-500">Rp <?= number_format($row['harga_satuan'] * $row['jumlah'], 0, ',', '.') ?></td>
                                     <td class="p-3">
                                         <span class="px-2 py-1 rounded text-xs font-semibold
                                             <?php

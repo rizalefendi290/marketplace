@@ -66,17 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include __DIR__ . '/../components/header.php'; ?>
 
     <div class="max-w-lg mx-auto px-4 py-12">
-        <h1 class="text-2xl font-bold text-green-400 mb-6 text-center">Edit Profil</h1>
-        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-green-800">
+        <h1 class="text-2xl font-bold text-yellow-500 mb-6 text-center">Edit Profil</h1>
+        <div class="bg-gray-900 rounded-2xl shadow-xl p-8 border border-yellow-300">
             <?php if ($success): ?>
-                <div class="mb-4 p-3 bg-green-700 text-white rounded">Profil berhasil diperbarui.</div>
+                <div class="mb-4 p-3 bg-yellow-500 text-white rounded">Profil berhasil diperbarui.</div>
             <?php elseif ($error): ?>
                 <div class="mb-4 p-3 bg-red-700 text-white rounded"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
             <form method="post" enctype="multipart/form-data" class="space-y-5">
                 <div class="flex flex-col items-center mb-4">
                     <?php if (!empty($user['foto_profil']) && file_exists(__DIR__ . '/../../uploads/' . $user['foto_profil'])): ?>
-                        <img src="/marketplace/uploads/<?= htmlspecialchars($user['foto_profil']) ?>" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-green-500 mb-2">
+                        <img src="/marketplace/uploads/<?= htmlspecialchars($user['foto_profil']) ?>" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-yellow-300 mb-2">
                     <?php else: ?>
                         <div class="w-24 h-24 rounded-full bg-gray-700 flex items-center justify-center text-gray-400 mb-2">
                             <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
