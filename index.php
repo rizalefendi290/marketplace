@@ -103,6 +103,11 @@ switch ($page) {
       }
     }
 
+    $page = $_GET['page'] ?? 'home';
+
+    if ($page === 'register-petugas') {
+      include 'views/petugas_desa/register_petugas.php';
+    }
 
   case 'riwayat-pengajuan-dana':
     include 'views/admin/riwayat_pengajuan.php';
