@@ -72,6 +72,10 @@ switch ($page) {
     include 'views/admin/edit_toko.php';
     break;
 
+  case 'pengajuan-dana':
+    include 'views/admin/pengajuan_dana.php';
+    break;
+
   case 'verifikasi-transaksi':
     include 'views/admin/verifikasi_transaksi.php';
     break;
@@ -81,7 +85,7 @@ switch ($page) {
     break;
 
   case 'petugas-dashboard':
-    include 'views/petugas/petugas_dashboard.php';
+    include 'views/petugas_desa/petugas_dashboard.php';
     break;
 
   case 'login':

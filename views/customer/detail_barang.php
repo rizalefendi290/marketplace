@@ -117,9 +117,8 @@ if (
             </div>
             <div class="md:w-1/2 flex flex-col justify-center z-10">
                 <h1 class="text-3xl font-bold text-white mb-2"><?= htmlspecialchars($produk['nama_barang']) ?></h1>
-                <p class="text-green-400 text-2xl font-bold mb-2">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></p>
+                <p class="text-yellow-400 text-2xl font-bold mb-2">Rp<?= number_format($produk['harga'], 0, ',', '.') ?></p>
                 <p class="mb-2 text-gray-300"><span class="font-semibold">Stok:</span> <?= $produk['stok'] ?></p>
-                <p class="mb-2 text-gray-300"><span class="font-semibold">Toko:</span> <span class="text-green-400"><?= htmlspecialchars($produk['nama_toko']) ?></span></p>
                 <div class="mb-4 text-gray-200">
                     <span class="font-semibold">Deskripsi:</span>
                     <div class="mt-1 whitespace-pre-line"><?= nl2br(htmlspecialchars($produk['deskripsi'])) ?></div>
@@ -146,7 +145,7 @@ if (
                 <?php endif; ?>
             </div>
         </div>
-        <div class="bg-white p-6 shadow-md rounded-lg mt-10">
+        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-10">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <?php if (!empty($produk['logo']) && file_exists(__DIR__ . '/../../uploads/' . $produk['logo'])): ?>
@@ -155,61 +154,61 @@ if (
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($produk['nama_toko']) ?>&background=10b981&color=fff&size=128" alt="Logo Toko" class="w-12 h-12 rounded-full">
                     <?php endif; ?>
                     <div>
-                        <h3 class="text-lg font-semibold"><?= htmlspecialchars($produk['nama_toko']) ?></h3>
-                        <p class="text-sm text-gray-500">Aktif 3 menit lalu</p>
+                        <h3 class="text-lg text-white font-semibold"><?= htmlspecialchars($produk['nama_toko']) ?></h3>
+                        <p class="text-sm text-gray-400">Aktif 3 menit lalu</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">Chat Sekarang</a>
-                    <a href="/marketplace/index.php?page=detail-toko&id=<?= $produk['toko_id'] ?>" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100">Kunjungi Toko</a>
+                    <a href="#" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded">Chat Sekarang</a>
+                    <a href="/marketplace/index.php?page=detail-toko&id=<?= $produk['toko_id'] ?>" class="border border-yellow-400 text-white px-4 py-2 rounded hover:bg-gray-100">Kunjungi Toko</a>
                 </div>
             </div>
 
             <div class="grid grid-cols-3 md:grid-cols-6 gap-4 text-sm text-gray-700">
                 <div>
-                    <div class="text-gray-500">Penilaian</div>
-                    <div class="font-medium"><?= $penilaian ?></div>
+                    <div class="text-gray-400">Penilaian</div>
+                    <div class="font-medium text-gray-400"><?= $penilaian ?></div>
                 </div>
                 <div>
-                    <div class="text-gray-500">Produk</div>
-                    <div class="font-medium"><?= $jumlah_produk ?></div>
+                    <div class="text-gray-400">Produk</div>
+                    <div class="font-medium text-gray-400"><?= $jumlah_produk ?></div>
                 </div>
                 <div>
-                    <div class="text-gray-500">Persentase Chat Dibalas</div>
-                    <div class="font-medium"><?= $persen_chat ?></div>
+                    <div class="text-gray-400">Persentase Chat Dibalas</div>
+                    <div class="font-medium text-gray-400"><?= $persen_chat ?></div>
                 </div>
                 <div>
-                    <div class="text-gray-500">Waktu Chat Dibalas</div>
-                    <div class="font-medium"><?= $waktu_chat ?></div>
+                    <div class="text-gray-400">Waktu Chat Dibalas</div>
+                    <div class="font-medium text-gray-400"><?= $waktu_chat ?></div>
                 </div>
                 <div>
-                    <div class="text-gray-500">Bergabung</div>
-                    <div class="font-medium"><?= $bergabung ?></div>
+                    <div class="text-gray-400">Bergabung</div>
+                    <div class="font-medium text-gray-400"><?= $bergabung ?></div>
                 </div>
                 <div>
-                    <div class="text-gray-500">Pengikut</div>
-                    <div class="font-medium"><?= $pengikut ?></div>
+                    <div class="text-gray-400">Pengikut</div>
+                    <div class="font-medium text-gray-400"><?= $pengikut ?></div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-6 shadow-md rounded-lg mt-8">
+        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-8">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold">Produk Lainnya dari Toko Ini</h3>
-                <a href="#" class="text-blue-600 hover:underline text-sm">Lihat Semua</a>
+                <h3 class="text-xl text-yellow-400 font-semibold">Produk Lainnya dari Toko Ini</h3>
+                <a href="#" class="text-yellow-400 hover:underline text-sm">Lihat Semua</a>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
                 <?php foreach ($produk_lain as $p): ?>
-                    <div class="border rounded-xl p-3 bg-gray-50 hover:shadow-lg transition flex flex-col items-center">
+                    <div class="border border-yellow-400 rounded-xl p-3 bg-gray-900 hover:shadow-lg transition flex flex-col items-center">
                         <a href="/marketplace/index.php?page=detail-barang&id=<?= $p['id'] ?>">
                             <?php if (!empty($p['gambar']) && file_exists(__DIR__ . '/../../uploads/' . $p['gambar'])): ?>
                                 <img src="/marketplace/uploads/<?= htmlspecialchars($p['gambar']) ?>" class="w-full h-32 object-cover rounded-lg border mb-2" alt="<?= htmlspecialchars($p['nama_barang']) ?>">
                             <?php else: ?>
                                 <div class="w-full h-32 flex items-center justify-center bg-gray-200 text-gray-400 rounded-lg border mb-2">Tidak Ada Gambar</div>
                             <?php endif; ?>
-                            <p class="text-sm font-semibold text-gray-800 truncate"><?= htmlspecialchars($p['nama_barang']) ?></p>
+                            <p class="text-sm font-semibold text-yellow-400 truncate"><?= htmlspecialchars($p['nama_barang']) ?></p>
                         </a>
-                        <div class="text-green-600 font-bold mt-1">Rp<?= number_format($p['harga'], 0, ',', '.') ?></div>
+                        <div class="text-yellow-400 font-bold mt-1">Rp<?= number_format($p['harga'], 0, ',', '.') ?></div>
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($produk_lain)): ?>
@@ -219,8 +218,8 @@ if (
         </div>
 
         <!-- Ulasan & Komentar Produk -->
-        <div class="bg-white p-6 shadow-md rounded-lg mt-8">
-            <h3 class="text-xl font-semibold mb-4">Ulasan & Komentar Produk</h3>
+        <div class="bg-gray-900 p-6 shadow-md rounded-lg mt-8">
+            <h3 class="text-xl text-yellow-400 font-semibold mb-4">Ulasan & Komentar Produk</h3>
             <?php
             // Ambil ulasan produk
             $stmt = $pdo->prepare("
@@ -245,7 +244,7 @@ if (
                             <?php endif; ?>
                             <div class="flex-1">
                                 <div class="flex items-center gap-2">
-                                    <span class="font-semibold text-gray-800"><?= htmlspecialchars($ulasan['nama']) ?></span>
+                                    <span class="font-semibold text-white"><?= htmlspecialchars($ulasan['nama']) ?></span>
                                     <span class="text-yellow-500 text-xs">
                                         <?php for ($i = 1; $i <= 5; $i++): ?>
                                             <?= $i <= round($ulasan['rating']) ? '★' : '☆' ?>
@@ -253,7 +252,7 @@ if (
                                     </span>
                                     <span class="text-xs text-gray-400"><?= date('d M Y', strtotime($ulasan['created_at'])) ?></span>
                                 </div>
-                                <div class="text-gray-700 mt-1"><?= nl2br(htmlspecialchars($ulasan['komentar'])) ?></div>
+                                <div class="text-white mt-1"><?= nl2br(htmlspecialchars($ulasan['komentar'])) ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>

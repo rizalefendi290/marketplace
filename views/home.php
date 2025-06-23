@@ -62,7 +62,7 @@ $kategoriList = $stmtKategori->fetchAll();
       <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Selamat Datang di <span class="text-yellow-300">Marketplace Desa</span></h1>
         <p class="text-lg md:text-xl text-blue-50 mb-8">Temukan produk UMKM terbaik dari desa Anda, langsung dari pelaku usaha lokal!</p>
-        <a href="#unggulan" class="inline-block bg-white text-green-700 font-semibold px-8 py-3 rounded-full shadow hover:bg-green-50 transition">Lihat Barang Unggulan</a>
+        <a href="#unggulan" class="inline-block bg-white text-black font-semibold px-8 py-3 rounded-full shadow hover:bg-green-50 transition">Lihat Barang Unggulan</a>
       </div>
     </div>
 
@@ -71,8 +71,8 @@ $kategoriList = $stmtKategori->fetchAll();
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
         <?php if ($kategoriList): ?>
           <?php foreach ($kategoriList as $kategori): ?>
-            <a href="index.php?page=kategori&id=<?= $kategori['id'] ?>" class="block bg-white rounded-xl shadow hover:shadow-lg transition p-6 text-center border border-yellow-300 hover:bg-yellow-50">
-              <span class="text-lg font-semibold text-yellow-700"><?= htmlspecialchars($kategori['nama_kategori']) ?></span>
+            <a href="index.php?page=kategori&id=<?= $kategori['id'] ?>" class="block bg-gray-900 rounded-xl shadow hover:shadow-lg transition p-6 text-center border border-yellow-300 hover:bg-gray-700">
+              <span class="text-lg font-semibold text-yellow-300"><?= htmlspecialchars($kategori['nama_kategori']) ?></span>
             </a>
           <?php endforeach; ?>
         <?php else: ?>
@@ -83,7 +83,7 @@ $kategoriList = $stmtKategori->fetchAll();
 
     <!-- Barang Unggulan -->
     <div id="unggulan" class="max-w-6xl mx-auto px-4 py-12">
-      <h2 class="text-3xl font-bold text-green-400 mb-10 text-center tracking-wide">Barang Unggulan</h2>
+      <h2 class="text-3xl font-bold text-yellow-400 mb-10 text-center tracking-wide">Barang Unggulan</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         <?php foreach ($barangUnggulan as $barang): ?>
           <?php
@@ -107,15 +107,15 @@ $kategoriList = $stmtKategori->fetchAll();
           ?>
           <div class="bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition p-4 flex flex-col items-center border border-green-800 group relative overflow-hidden">
             <!-- Ribbon -->
-            <div class="absolute left-0 top-0 bg-gradient-to-r from-green-500 to-blue-500 text-white text-xs px-3 py-1 rounded-br-2xl font-bold shadow group-hover:scale-105 transition">Unggulan</div>
+            <div class="absolute left-0 top-0 bg-gradient-to-r from-green-500 to-blue-500 text-yellow-400 text-xs px-3 py-1 rounded-br-2xl font-bold shadow group-hover:scale-105 transition">Unggulan</div>
             <a href="index.php?page=detail-barang&id=<?= $barang['id'] ?>">
               <img class="rounded-xl w-full h-40 object-cover mb-3 border border-gray-700 group-hover:scale-105 transition" src="uploads/<?= htmlspecialchars($barang['gambar']) ?>" alt="<?= htmlspecialchars($barang['nama_barang']) ?>" />
             </a>
             <div class="flex-1 w-full">
               <a href="index.php?page=detail-barang&id=<?= $barang['id'] ?>">
-                <h5 class="mb-2 text-lg font-bold tracking-tight text-white hover:text-green-400 transition"><?= htmlspecialchars($barang['nama_barang']) ?></h5>
+                <h5 class="mb-2 text-lg font-bold tracking-tight text-yellow-400 hover:text-yellow-50 transition"><?= htmlspecialchars($barang['nama_barang']) ?></h5>
               </a>
-              <p class="mb-1 text-sm text-gray-400">Toko: <span class="font-semibold text-green-400"><?= htmlspecialchars($barang['nama_toko']) ?></span></p>
+              <p class="mb-1 text-sm text-gray-400">Toko: <span class="font-semibold text-yellow-400"><?= htmlspecialchars($barang['nama_toko']) ?></span></p>
               <div class="flex items-center gap-3 mb-1">
                 <span class="text-yellow-400 flex items-center">
                   <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
@@ -124,9 +124,9 @@ $kategoriList = $stmtKategori->fetchAll();
                   <?= $rata2 ?>
                 </span>
                 <span class="text-gray-400 text-xs">(<?= $total_ulasan ?> ulasan)</span>
-                <span class="text-blue-400 text-xs ml-auto"><?= $terjual ?> terjual</span>
+                <span class="text-yellow-400 text-xs ml-auto"><?= $terjual ?> terjual</span>
               </div>
-              <p class="mb-3 font-semibold text-green-400 text-xl">Rp<?= number_format($barang['harga'], 0, ',', '.') ?></p>
+              <p class="mb-3 font-semibold text-yellow-400 text-xl">Rp<?= number_format($barang['harga'], 0, ',', '.') ?></p>
             </div>
             <a href="index.php?page=detail-barang&id=<?= $barang['id'] ?>" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-blue-500 rounded-lg shadow hover:from-green-600 hover:to-blue-600 focus:ring-4 focus:outline-none focus:ring-green-200 transition">
               Lihat Detail
@@ -138,26 +138,26 @@ $kategoriList = $stmtKategori->fetchAll();
         <?php endforeach; ?>
       </div>
       <div class="mt-12 text-center">
-        <a href="index.php?page=produk" class="inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-semibold px-10 py-4 rounded-full shadow-lg text-lg transition">Lihat Semua Produk</a>
+        <a href="index.php?page=produk" class="inline-block bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-yellow-400 font-semibold px-10 py-4 rounded-full shadow-lg text-lg transition">Lihat Semua Produk</a>
       </div>
     </div>
 
     <!-- Grid Toko: Menampilkan semua toko -->
     <div class="max-w-6xl mx-auto px-4 py-12">
-      <h2 class="text-2xl font-bold text-blue-400 mb-8 text-center">Toko Pilihan</h2>
+      <h2 class="text-2xl font-bold text-yellow-400 mb-8 text-center">Toko Pilihan</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         <?php if ($tokoList): ?>
           <?php foreach ($tokoList as $toko): ?>
             <?php
             $logo_path = realpath(__DIR__ . '/../uploads/' . $toko['logo']);
             ?>
-            <a href="index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-4 bg-white hover:shadow-lg transition text-center">
+            <a href="index.php?page=detail-toko&id=<?= $toko['id'] ?>" class="block border rounded-lg p-4 bg-gray-900 hover:shadow-lg transition text-center">
               <?php if (!empty($toko['logo']) && $logo_path && file_exists($logo_path)): ?>
                 <img src="/marketplace/uploads/<?= htmlspecialchars($toko['logo']) ?>" class="w-16 h-16 object-cover rounded-full mx-auto mb-2" alt="<?= htmlspecialchars($toko['nama_toko']) ?>">
               <?php else: ?>
                 <div class="w-16 h-16 flex items-center justify-center bg-gray-200 text-gray-400 rounded-full mx-auto mb-2">No Logo</div>
               <?php endif; ?>
-              <div class="font-semibold text-gray-800"><?= htmlspecialchars($toko['nama_toko']) ?></div>
+              <div class="font-semibold text-yellow-400"><?= htmlspecialchars($toko['nama_toko']) ?></div>
             </a>
           <?php endforeach; ?>
         <?php else: ?>
@@ -165,7 +165,7 @@ $kategoriList = $stmtKategori->fetchAll();
         <?php endif; ?>
       </div>
       <div class="mt-10 text-center">
-        <a href="index.php?page=semua-toko" class="inline-block bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold px-10 py-4 rounded-full shadow-lg text-lg transition">
+        <a href="index.php?page=semua-toko" class="inline-block bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-yellow-400 font-semibold px-10 py-4 rounded-full shadow-lg text-lg transition">
           Lihat Semua Toko
         </a>
       </div>
@@ -219,9 +219,9 @@ $kategoriList = $stmtKategori->fetchAll();
     <div class="max-w-5xl mx-auto mt-20 mb-10 px-4">
       <div class="bg-gray-900 from-green-400 to-blue-500 rounded-2xl shadow-lg p-10 flex flex-col md:flex-row items-center justify-between gap-8">
         <div>
-          <h3 class="text-2xl font-bold text-white mb-2">Gabung Menjadi Penjual!</h3>
+          <h3 class="text-2xl font-bold text-yellow-400 mb-2">Gabung Menjadi Penjual!</h3>
           <p class="text-white mb-4">Punya produk lokal? Daftarkan tokomu dan mulai jualan di Marketplace Desa sekarang juga.</p>
-          <a href="https://wa.me/62895347042844?text=Halo%20admin,%20saya%20ingin%20mendaftar%20sebagai%20penjual%20di%20Marketplace%20Desa." target="_blank" class="inline-block bg-white text-green-700 font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">
+          <a href="https://wa.me/62895347042844?text=Halo%20admin,%20saya%20ingin%20mendaftar%20sebagai%20penjual%20di%20Marketplace%20Desa." target="_blank" class="inline-block bg-white text-black font-semibold px-6 py-2 rounded-full shadow hover:bg-green-50 transition">
             Daftar Sekarang
           </a>
         </div>
