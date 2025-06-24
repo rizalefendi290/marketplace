@@ -1,12 +1,14 @@
 <?php
 require '../config/database.php';
 
-$nama = $_POST['nama'];
-$username = $_POST['username'];
-$email = $_POST['email'];
-$nomor_hp = $_POST['nomor_hp'];
-$password = $_POST['password'];
-$role = $_POST['role'];
+$nama = $_POST['nama'] ?? '';
+$username = $_POST['username'] ?? '';
+$email = $_POST['email'] ?? '';
+$nomor_hp = $_POST['nomor_hp'] ?? '';
+$password = $_POST['password'] ?? '';
+
+// Tetapkan role secara langsung ke 'customer'
+$role = 'customer';
 
 // Cek username sudah ada
 $cek = $pdo->prepare("SELECT id FROM users WHERE username = ?");
