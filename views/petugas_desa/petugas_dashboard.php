@@ -33,7 +33,7 @@ $pengajuan_list = $stmt->fetchAll();
 
 <body class="bg-gray-100">
 
-    <?php include __DIR__ . '/../components/header.php'; ?>
+    <?php include __DIR__ . '/../components/navbar_petugas.php'; ?>
 
     <div class="p-4 sm:ml-64">
         <div class="p-4 mt-12 border border-green-600 rounded-xl bg-white shadow max-w-7xl mx-auto">
@@ -112,6 +112,7 @@ $pengajuan_list = $stmt->fetchAll();
         </div>
     </div>
 
+    <?php include __DIR__ . '/../components/footer_petugas.php'; ?>
 </body>
 
 </html>

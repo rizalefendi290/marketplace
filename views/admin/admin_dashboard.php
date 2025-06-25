@@ -202,8 +202,8 @@ $transaksi = $stmt->fetchAll();
                             + Tambah Produk
                         </a>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-sm text-left border border-gray-200 rounded-lg">
                             <thead class="bg-green-100">
                                 <tr>
                                     <th class="px-4 py-2">Nama</th>

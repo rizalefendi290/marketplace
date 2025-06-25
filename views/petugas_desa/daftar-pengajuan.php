@@ -104,6 +104,7 @@ $pengajuan_list = $stmt->fetchAll();
         </div>
     </div>
 
+    <?php include __DIR__ . '/../components/footer_petugas.php'; ?>
 </body>
 
 </html>
