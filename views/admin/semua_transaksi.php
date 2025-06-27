@@ -17,7 +17,7 @@ if (!$toko) {
 $toko_id = $toko['id'];
 
 // PAGINATION SETUP
-$perPage = 5;
+$perPage = 10;
 $page = isset($_GET['page_num']) && is_numeric($_GET['page_num']) ? (int)$_GET['page_num'] : 1;
 $start = ($page - 1) * $perPage;
 

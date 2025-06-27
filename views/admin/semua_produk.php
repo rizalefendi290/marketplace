@@ -104,11 +104,11 @@ $produk = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     Menampilkan <?= $start + 1 ?> - <?= $start + count($produk) ?> dari <?= $totalData ?> produk
                 </div>
                 <div class="flex items-center gap-1">
-                    <a href="?page_num=<?= max(1, $page - 1) ?>" class="px-2 py-1 border rounded hover:bg-gray-100 <?= $page == 1 ? 'pointer-events-none opacity-50' : '' ?>">&laquo;</a>
+                    <a href="/marketplace/index.php?page=semua-produk&page_num=<?= max(1, $page - 1) ?>" class="px-2 py-1 border rounded hover:bg-gray-100 <?= $page == 1 ? 'pointer-events-none opacity-50' : '' ?>">&laquo;</a>
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <a href="?page_num=<?= $i ?>" class="px-2 py-1 border rounded <?= $i == $page ? 'bg-green-200 font-bold' : 'hover:bg-gray-100' ?>"><?= $i ?></a>
+                        <a href="/marketplace/index.php?page=semua-produk&page_num=<?= $i ?>" class="px-2 py-1 border rounded <?= $i == $page ? 'bg-green-200 font-bold' : 'hover:bg-gray-100' ?>"><?= $i ?></a>
                     <?php endfor; ?>
-                    <a href="?page_num=<?= min($totalPages, $page + 1) ?>" class="px-2 py-1 border rounded hover:bg-gray-100 <?= $page == $totalPages ? 'pointer-events-none opacity-50' : '' ?>">&raquo;</a>
+                    <a href="/marketplace/index.php?page=semua-produk&page_num=<?= min($totalPages, $page + 1) ?>" class="px-2 py-1 border rounded hover:bg-gray-100 <?= $page == $totalPages ? 'pointer-events-none opacity-50' : '' ?>">&raquo;</a>
                 </div>
             </div>
         </div>
